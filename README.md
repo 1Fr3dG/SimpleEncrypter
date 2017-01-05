@@ -1,6 +1,6 @@
 # SimpleEncrypter
 
-[![CI Status](http://img.shields.io/travis/1fr3dg/SimpleEncrypter.svg?style=flat)](https://travis-ci.org/1fr3dg/SimpleEncrypter)
+[![CI Status](http://img.shields.io/travis/1Fr3dG/SimpleEncrypter.svg?style=flat)](https://travis-ci.org/1Fr3dG/SimpleEncrypter)
 [![Version](https://img.shields.io/cocoapods/v/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 [![License](https://img.shields.io/cocoapods/l/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 [![Platform](https://img.shields.io/cocoapods/p/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
