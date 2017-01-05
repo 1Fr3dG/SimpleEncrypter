@@ -1,0 +1,6 @@
+use_frameworks!
+target 'SimpleEncrypter_Tests' do
+  pod 'SimpleEncrypter', :path => '../'
+  
+  
+end
