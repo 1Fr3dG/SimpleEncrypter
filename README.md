@@ -19,6 +19,8 @@ a simple protocol for Data->Data encrypter used by my apps
 
 ## Installation
 
+#### CocoaPods
+
 可通过[CocoaPods](http://cocoapods.org)安装：
 
 SimpleEncrypter is available through [CocoaPods](http://cocoapods.org). To install
@@ -26,6 +28,14 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod "SimpleEncrypter"
+```
+
+#### Swift Package Manager
+
+You can use [Swift Package Manager](https://swift.org/package-manager/) and specify dependency in `Package.swift` by adding this:
+
+```swift
+.Package(url: "https://github.com/1Fr3dG/SimpleEncrypter", majorVersion: 1)
 ```
 
 ## Author
