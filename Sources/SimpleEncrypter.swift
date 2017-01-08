@@ -7,7 +7,7 @@
 
 import Foundation
 import CryptoSwift
-import SwiftCompressor
+import Gzip
 
 /// 数据加密协议
 ///
@@ -42,40 +42,50 @@ public class EncrypterNone: NSObject, SimpleEncrypter {
 /// Compress (not entrypt) data with same protocol
 public class EncrypterCompress: NSObject, SimpleEncrypter {
     
-    private let _algorithm: CompressionAlgorithm
-    public let key: String
+    public var key: String
     
     /// - parameter with:
     ///     - 压缩算法
     ///     - compress algorithm
-    ///     - "lz4"|"lzma"|zlib"|"lzfse", lzfse is the default
+    ///     - iOS 9-, OSX 10.11- support only "gzip"
     required public init(with key: String) {
-        self.key = key
-        switch key {
-        case "lz4", "LZ4":
-            _algorithm = .lz4
-        case "lzma", "LZMA":
-            _algorithm = .lzma
-        case "zlib", "ZLIB":
-            _algorithm = .zlib
-        default:
-            _algorithm = .lzfse
+        self.key = key.lowercased()
+        if #available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *) {
+            if self.key != "gzip" {
+                print("Please use newer version of SimpleEncrypter")
+                self.key = "gzip"
+            }
+        } else {
+            if self.key != "gzip" {
+                print("low version build system support gzip only")
+                self.key = "gzip"
+            }
         }
     }
     
     public func encrypt(_ plaintext: Data) -> Data {
         var cyphertext = Data()
-        do {
-            cyphertext = try plaintext.compress(algorithm: _algorithm)!
-        } catch {
+        
+        switch key {
+
+        default:
+            // use gzip for lower version system
+            do {
+                cyphertext = try plaintext.gzipped()
+            } catch {
+            }
         }
         return cyphertext
     }
     public func decrypt(_ cyphertext: Data) -> Data {
         var plaintext = Data()
-        do {
-            plaintext = try cyphertext.decompress(algorithm: _algorithm)!
-        } catch {
+        switch key {
+        default:
+            // use gzip for lower version system
+            do {
+                plaintext = try cyphertext.gzipped()
+            } catch {
+            }
         }
         return plaintext
     }
