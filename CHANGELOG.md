@@ -12,7 +12,14 @@ a simple protocol for Data->Data encrypter used by my apps
 [![License](https://img.shields.io/cocoapods/l/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 [![Platform](https://img.shields.io/cocoapods/p/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 
+* add info about spm
+
+## 0.3.0
+
 * add spm support
+* special version build to deal with swift build forces osx target version to 10.10
+	* remove native [Data Compression](https://developer.apple.com/reference/compression/1665429-data_compression) support
+	* provide only gzip for compress
 
 ## 1.0.0
 Moved from my last project.
