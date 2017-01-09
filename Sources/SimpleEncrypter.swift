@@ -83,7 +83,7 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
         default:
             // use gzip for lower version system
             do {
-                plaintext = try cyphertext.gzipped()
+                plaintext = try cyphertext.gunzipped()
             } catch {
             }
         }
