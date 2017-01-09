@@ -41,7 +41,7 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 NOTE: For now (Jan. 2017), swift build forces the osx.target.version to 10.10, so I build a special version to deal with that. This version support only gzip for compress.
 
 ```swift
-.Package(url: "https://github.com/1Fr3dG/SimpleEncrypter", "0.3.0")
+.Package(url: "https://github.com/1Fr3dG/SimpleEncrypter", "0.3.1")
 ```
 
 

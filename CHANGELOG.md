@@ -14,6 +14,9 @@ a simple protocol for Data->Data encrypter used by my apps
 
 * add gzip support
 
+## 0.3.1
+* fix bug: used zip() for unzip function
+
 ## 1.0.1
 * add info about spm
 
