@@ -190,4 +190,28 @@ class Tests: XCTestCase {
         XCTAssert(Tests.data.count == _data.count, "Decompressed data should be same size with original one")
         XCTAssert(Tests.data.bytes[2] == _data.bytes[2])
     }
+    
+    func testPerformanceCompressGZIP() {
+        let encrypter = EncrypterCompress(with: "gzip")
+        self.measure {
+            for _ in 0 ..< Tests.perfTimes {
+                Tests.tmpdata = encrypter.encrypt(Tests.data)
+            }
+        }
+        print("[\(encrypter)] compressed \(Tests.data) to \(Tests.tmpdata)")
+    }
+    
+    func testPerformanceCompressGZIP_() {
+        let encrypter = EncrypterCompress(with: "gzip")
+        var _data = Data()
+        self.measure {
+            for _ in 0 ..< Tests.perfTimes {
+                _data = encrypter.decrypt(Tests.tmpdata)
+            }
+        }
+        print("[\(encrypter)] decompressed \(Tests.tmpdata) to \(_data)")
+        
+        XCTAssert(Tests.data.count == _data.count, "Decompressed data should be same size with original one")
+        XCTAssert(Tests.data.bytes[2] == _data.bytes[2])
+    }
 }
