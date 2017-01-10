@@ -15,6 +15,7 @@ import Gzip
 /// a simple protocol
 public protocol SimpleEncrypter {
     var key: String { get }
+    var description: String { get }
     init(with key: String)
     func encrypt(_ plaintext: Data) -> Data
     func decrypt(_ cyphertext: Data) -> Data
