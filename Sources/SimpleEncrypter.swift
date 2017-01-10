@@ -30,6 +30,10 @@ public class EncrypterNone: NSObject, SimpleEncrypter {
         self.key = key
     }
     
+    override public var description: String {
+        return "EncrypterNone"
+    }
+    
     public func encrypt(_ plaintext: Data) -> Data {
         return plaintext
     }
@@ -59,6 +63,10 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
                 self.key = "gzip"
             }
         }
+    }
+    
+    override public var description: String {
+        return "EncrypterCompress: " + key
     }
     
     public func encrypt(_ plaintext: Data) -> Data {
@@ -142,6 +150,11 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
 /// AES
 public class EncrypterAES: NSObject, SimpleEncrypter {
     public let key: String
+    
+    override public var description: String {
+        return "EncrypterAES"
+    }
+    
     let iv: String
     required public init(with key: String) {
         self.key = key
@@ -173,6 +186,11 @@ public class EncrypterAES: NSObject, SimpleEncrypter {
 /// Fast
 public class EncrypterXor: NSObject, SimpleEncrypter {
     public let key: String
+    
+    override public var description: String {
+        return "EncrypterXor"
+    }
+    
     let binarykey: Data
     required public init(with key: String) {
         self.key = key
