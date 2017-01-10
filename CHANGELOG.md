@@ -12,6 +12,14 @@ a simple protocol for Data->Data encrypter used by my apps
 [![License](https://img.shields.io/cocoapods/l/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 [![Platform](https://img.shields.io/cocoapods/p/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 
+* override description
+
+## 0.3.2
+
+* override description
+
+## 1.1.0
+
 * add gzip support
 
 ## 0.3.1
