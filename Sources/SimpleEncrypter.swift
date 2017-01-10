@@ -35,6 +35,10 @@ public class EncrypterNone: NSObject, SimpleEncrypter {
     public func decrypt(_ cyphertext: Data) -> Data {
         return cyphertext
     }
+    
+    override public var description: String {
+        return "EncrypterNone"
+    }
 }
 
 /// 压缩
@@ -43,6 +47,10 @@ public class EncrypterNone: NSObject, SimpleEncrypter {
 public class EncrypterCompress: NSObject, SimpleEncrypter {
     
     public var key: String
+    
+    override public var description: String {
+        return "EncrypterCompress: " + key
+    }
     
     /// - parameter with:
     ///     - 压缩算法
@@ -94,6 +102,9 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
 /// AES
 public class EncrypterAES: NSObject, SimpleEncrypter {
     public let key: String
+    override public var description: String {
+        return "EncrypterAES"
+    }
     let iv: String
     required public init(with key: String) {
         self.key = key
@@ -125,6 +136,9 @@ public class EncrypterAES: NSObject, SimpleEncrypter {
 /// Fast
 public class EncrypterXor: NSObject, SimpleEncrypter {
     public let key: String
+    override public var description: String {
+        return "EncrypterXor"
+    }
     let binarykey: Data
     required public init(with key: String) {
         self.key = key
