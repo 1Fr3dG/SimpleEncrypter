@@ -12,6 +12,12 @@ a simple protocol for Data->Data encrypter used by my apps
 [![License](https://img.shields.io/cocoapods/l/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 [![Platform](https://img.shields.io/cocoapods/p/SimpleEncrypter.svg?style=flat)](http://cocoapods.org/pods/SimpleEncrypter)
 
+* upgrade to Swift 4
+* default compress algorithm changed to LZFSE
+* gzip compress algorithm removed
+
+## 1.1.2
+
 * add description definition to protocol
 
 ## 1.1.1

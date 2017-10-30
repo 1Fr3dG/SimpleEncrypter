@@ -8,7 +8,8 @@
 import Foundation
 import CryptoSwift
 import SwiftCompressor
-import Gzip
+//import Gzip
+import Compression
 
 /// 数据加密协议
 ///
@@ -53,17 +54,10 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
     /// - parameter with:
     ///     - 压缩算法
     ///     - compress algorithm
-    ///     - "lz4"|"lzma"|zlib"|"lzfse"|"gzip", gzip is the default
+    ///     - "lz4"|"lzma"|zlib"|"lzfse", lzfse is the default
     required public init(with key: String) {
         self.key = key.lowercased()
-        if #available(iOS 9.0, OSX 10.11, watchOS 2.0, tvOS 9.0, *) {
-            
-        } else {
-            if self.key != "gzip" {
-                print("low version build system support gzip only")
-                self.key = "gzip"
-            }
-        }
+        
     }
     
     override public var description: String {
@@ -94,14 +88,9 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
                 cyphertext = try plaintext.compress(algorithm: .lzfse)!
             } catch {
             }
-        case "gzip":
-            do {
-                cyphertext = try plaintext.gzipped()
-            } catch {
-            }
         default:
             do {
-                cyphertext = try plaintext.gzipped()
+                cyphertext = try plaintext.compress(algorithm: .lzfse)!
             } catch {
             }
         }
@@ -132,14 +121,9 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
                 plaintext = try cyphertext.decompress(algorithm: .lzfse)!
             } catch {
             }
-        case "gzip":
-            do {
-                plaintext = try cyphertext.gunzipped()
-            } catch {
-            }
         default:
             do {
-                plaintext = try cyphertext.gunzipped()
+                plaintext = try cyphertext.decompress(algorithm: .lzfse)!
             } catch {
             }
         }
@@ -159,7 +143,8 @@ public class EncrypterAES: NSObject, SimpleEncrypter {
     let iv: String
     required public init(with key: String) {
         self.key = key
-        iv = key.md5().substring(to: key.index(key.startIndex, offsetBy: 16))
+        let keymd5 = key.md5()
+        iv = String(keymd5[..<keymd5.index(keymd5.startIndex, offsetBy: 16)])
     }
     
     public func encrypt(_ plaintext: Data) -> Data {
