@@ -7,7 +7,7 @@ language: objective-c
 cache: cocoapods
 podfile: Example/Podfile
 xcode_workspace: Example/SimpleEncrypter.xcworkspace
-xcode_scheme: SimpleEncrypter
+xcode_scheme: Pods-SimpleEncrypter_Tests
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example
