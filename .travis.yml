@@ -2,12 +2,12 @@
 # * http://www.objc.io/issue-6/travis-ci.html
 # * https://github.com/supermarin/xcpretty#usage
 
-osx_image: xcode9.1
+osx_image: xcode9.2
 language: objective-c
 cache: cocoapods
 podfile: Example/Podfile
 xcode_workspace: Example/SimpleEncrypter.xcworkspace
-xcode_scheme: Pods-SimpleEncrypter_Tests
+xcode_scheme: Pods-SimpleEncrypter_Example
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example
