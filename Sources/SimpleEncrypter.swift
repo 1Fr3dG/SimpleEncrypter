@@ -7,8 +7,6 @@
 
 import Foundation
 import CryptoSwift
-import SwiftCompressor
-//import Gzip
 import Compression
 
 /// 数据加密协议
@@ -50,6 +48,8 @@ public class EncrypterNone: NSObject, SimpleEncrypter {
 public class EncrypterCompress: NSObject, SimpleEncrypter {
     
     public var key: String
+    private var algorithm: compression_algorithm
+    private var bufferSize: Int
     
     /// - parameter with:
     ///     - 压缩算法
@@ -58,75 +58,78 @@ public class EncrypterCompress: NSObject, SimpleEncrypter {
     required public init(with key: String) {
         self.key = key.lowercased()
         
+        switch key {
+        case "lz4":
+                algorithm = COMPRESSION_LZ4
+        case "lzma":
+                algorithm = COMPRESSION_LZMA
+        case "zlib":
+                algorithm = COMPRESSION_ZLIB
+        case "lzfse":
+                algorithm = COMPRESSION_LZFSE
+        default:
+                algorithm = COMPRESSION_LZFSE
+        }
+        
+        bufferSize = 0x20000
     }
     
     override public var description: String {
         return "EncrypterCompress: " + key
     }
     
+    private func processData(inputData: Data, compress: Bool) -> Data? {
+        guard inputData.count > 0 else { return nil }
+        
+        var stream = UnsafeMutablePointer<compression_stream>.allocate(capacity: 1).pointee
+        
+        let initStatus = compression_stream_init(&stream, compress ? COMPRESSION_STREAM_ENCODE : COMPRESSION_STREAM_DECODE, algorithm)
+        guard initStatus != COMPRESSION_STATUS_ERROR else {
+            print("[Compression] \(compress ? "Compression" : "Decompression") with \(algorithm) failed to init stream with status \(initStatus).")
+            return nil
+        }
+        
+        defer {
+            compression_stream_destroy(&stream)
+        }
+        
+        stream.src_ptr = UnsafePointer<UInt8>(inputData.bytes)
+        stream.src_size = inputData.count
+        
+        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize)
+        stream.dst_ptr = buffer
+        stream.dst_size = bufferSize
+        var outputData = Data()
+        
+        while true {
+            let status = compression_stream_process(&stream, Int32(compress ? COMPRESSION_STREAM_FINALIZE.rawValue : 0))
+            if status == COMPRESSION_STATUS_OK {
+                guard stream.dst_size == 0 else { continue }
+                outputData.append(buffer, count: bufferSize)
+                stream.dst_ptr = buffer
+                stream.dst_size = bufferSize
+            } else if status == COMPRESSION_STATUS_END {
+                guard stream.dst_ptr > buffer else { continue }
+                outputData.append(buffer, count: stream.dst_ptr - buffer)
+                return outputData
+            } else if status == COMPRESSION_STATUS_ERROR {
+                print("[Compression] \(compress ? "Compression" : "Decompression") with \(algorithm) failed with status \(status).")
+                return nil
+            }
+        }
+    }
+    
     public func encrypt(_ plaintext: Data) -> Data {
         var cyphertext = Data()
         
-        switch key {
-        case "lz4":
-            do {
-                cyphertext = try plaintext.compress(algorithm: .lz4)!
-            } catch {
-            }
-        case "lzma":
-            do {
-                cyphertext = try plaintext.compress(algorithm: .lzma)!
-            } catch {
-            }
-        case "zlib":
-            do {
-                cyphertext = try plaintext.compress(algorithm: .zlib)!
-            } catch {
-            }
-        case "lzfse":
-            do {
-                cyphertext = try plaintext.compress(algorithm: .lzfse)!
-            } catch {
-            }
-        default:
-            do {
-                cyphertext = try plaintext.compress(algorithm: .lzfse)!
-            } catch {
-            }
-        }
+        cyphertext = processData(inputData: plaintext, compress: true)!
         
         return cyphertext
     }
     public func decrypt(_ cyphertext: Data) -> Data {
         var plaintext = Data()
         
-        switch key {
-        case "lz4":
-            do {
-                plaintext = try cyphertext.decompress(algorithm: .lz4)!
-            } catch {
-            }
-        case "lzma":
-            do {
-                plaintext = try cyphertext.decompress(algorithm: .lzma)!
-            } catch {
-            }
-        case "zlib":
-            do {
-                plaintext = try cyphertext.decompress(algorithm: .zlib)!
-            } catch {
-            }
-        case "lzfse":
-            do {
-                plaintext = try cyphertext.decompress(algorithm: .lzfse)!
-            } catch {
-            }
-        default:
-            do {
-                plaintext = try cyphertext.decompress(algorithm: .lzfse)!
-            } catch {
-            }
-        }
+        plaintext = processData(inputData: cyphertext, compress: false)!
         
         return plaintext
     }

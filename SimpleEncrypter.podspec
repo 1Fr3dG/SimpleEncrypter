@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SimpleEncrypter'
-  s.version          = '1.2.0'
+  s.version          = '1.3.0'
   s.summary          = 'A simple protocol for Data->Data encrypt.'
 
   s.description      = <<-DESC
@@ -19,6 +19,6 @@ This is designed for my apps, so that I can easily change real encrypter.
   s.source_files = 'Sources/*'
   
   s.dependency 'CryptoSwift'
-  s.dependency 'SwiftCompressor'
+  #s.dependency 'SwiftCompressor'
   #s.dependency 'GzipSwift'
 end
