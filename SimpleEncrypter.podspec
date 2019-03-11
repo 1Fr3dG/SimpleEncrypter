@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SimpleEncrypter'
-  s.version          = '1.3.0'
+  s.version          = '1.4.0'
   s.summary          = 'A simple protocol for Data->Data encrypt.'
 
   s.description      = <<-DESC
@@ -13,10 +13,11 @@ This is designed for my apps, so that I can easily change real encrypter.
   s.author           = { 'Alfred Gao' => 'alfredg@alfredg.cn' }
   s.source           = { :git => 'https://github.com/1fr3dg/SimpleEncrypter.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '9.0'
-  s.osx.deployment_target = '10.11'
+  s.ios.deployment_target = '11.0'
+  s.osx.deployment_target = '10.14'
 
   s.source_files = 'Sources/*'
+  s.swift_versions = ['4.0', '4.2']
   
   s.dependency 'CryptoSwift'
   #s.dependency 'SwiftCompressor'

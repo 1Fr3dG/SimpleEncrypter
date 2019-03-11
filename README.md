@@ -15,7 +15,7 @@ a simple protocol for Data->Data encrypter used by my apps
 
 ## Requirements
 
-* iOS 9.0+, OSX 10.11+
+* iOS 11.0+, OSX 10.14+
 
 ## Installation
 
@@ -36,12 +36,6 @@ You can use [Swift Package Manager](https://swift.org/package-manager/) and spec
 
 ```swift
 .Package(url: "https://github.com/1Fr3dG/SimpleEncrypter", majorVersion: 1)
-```
-
-NOTE: For now (Jan. 2017), swift build forces the osx.target.version to 10.10, so I build a special version to deal with that. This version support only gzip for compress.
-
-```swift
-.Package(url: "https://github.com/1Fr3dG/SimpleEncrypter", "0.3.1")
 ```
 
 

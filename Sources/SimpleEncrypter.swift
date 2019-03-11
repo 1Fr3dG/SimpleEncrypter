@@ -190,13 +190,15 @@ public class EncrypterXor: NSObject, SimpleEncrypter {
     private func xor(inData: Data) -> Data {
         var xorData = inData
         
+        let dataCount = xorData.count
+        
         xorData.withUnsafeMutableBytes { (start: UnsafeMutablePointer<UInt8>) -> Void in
             binarykey.withUnsafeBytes { (keyStart: UnsafePointer<UInt8>) -> Void in
-                let b = UnsafeMutableBufferPointer<UInt8>(start: start, count: xorData.count)
+                let b = UnsafeMutableBufferPointer<UInt8>(start: start, count: dataCount)
                 let k = UnsafeBufferPointer<UInt8>(start: keyStart, count: binarykey.count)
                 let length = binarykey.count
                 
-                for i in 0..<xorData.count {
+                for i in 0..<dataCount {
                     b[i] ^= k[i % length]
                 }
             }
