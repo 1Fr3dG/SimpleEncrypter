@@ -17,7 +17,7 @@ This is designed for my apps, so that I can easily change real encrypter.
   s.osx.deployment_target = '10.14'
 
   s.source_files = 'Sources/*'
-  s.swift_versions = '4.2'
+  s.swift_version = '4.2'
   
   s.dependency 'CryptoSwift'
   #s.dependency 'SwiftCompressor'
